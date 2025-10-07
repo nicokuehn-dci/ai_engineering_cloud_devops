@@ -76,11 +76,11 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "october_7",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": os.environ.get("DJANGO_DB_NAME", "october_7"),
+        "USER": os.environ.get("DJANGO_DB_USER", "postgres"),
+        "PASSWORD": os.environ.get("DJANGO_DB_PASSWORD", "postgres"),
+        "HOST": os.environ.get("DJANGO_DB_HOST", "localhost"),
+        "PORT": os.environ.get("DJANGO_DB_PORT", "5432"),
     }
 }
 
@@ -128,15 +128,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Code that is specific to Github actions
-
-if os.environ.get('GITHUB_ACTIONS') == 'true':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DATABASE_NAME', ''),
-            'USER': os.environ.get('DATABASE_USER', ''),
-            'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
-            'HOST': os.environ.get('DATABASE_HOST', '127.0.0.1'),
-            'PORT': os.environ.get('DATABASE_PORT', '5432'),
-        }
-    }
+# No need for a separate GitHub Actions block; environment variables are used above for all environments.
